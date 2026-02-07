@@ -1,0 +1,204 @@
+--By RudhaFSI
+--BY Rudha, don't steal, your skid!
+
+local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
+local StarterGui = game:GetService("StarterGui")
+local SoundService = game:GetService("SoundService")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+
+local plr = Players.LocalPlayer
+
+local IMAGE_ID = "rbxassetid://130113770467162"
+local AUDIO_ID = "rbxassetid://81262930264349"
+
+pcall(function()
+	Lighting:ClearAllChildren()
+	local sky = Instance.new("Sky", Lighting)
+	sky.SkyboxBk = IMAGE_ID
+	sky.SkyboxDn = IMAGE_ID
+	sky.SkyboxFt = IMAGE_ID
+	sky.SkyboxLf = IMAGE_ID
+	sky.SkyboxRt = IMAGE_ID
+	sky.SkyboxUp = IMAGE_ID
+end)
+
+pcall(function()
+	local sound = Instance.new("Sound", SoundService)
+	sound.SoundId = AUDIO_ID
+	sound.Volume = 8
+	sound.Looped = true
+	sound:Play()
+end)
+
+task.spawn(function()
+	while true do
+		pcall(function()
+			StarterGui:SetCore("SendNotification", {
+				Title = "RUDHA",
+				Text = "Ŗ̸̤͋ǘ̴̮̣̫̯͂͝ḑ̸͔̈́ḧ̶͖̩́͒a̸̗̰̽̈́́͜ ̸̞̣̬̑ẅ̶̪̩̿̾à̶̝͖̬͍̅s̶̭͈͆͋̉ͅ ̶̱̝̺́̐h̸̠͉͗́͜e̴͎͎͊̏̓r̷͚̀̄e̷̦͗́͊̈́!̴͎̮̺̗̑",
+				Duration = 2,
+				Icon = IMAGE_ID
+			})
+		end)
+		task.wait(2)
+	end
+end)
+
+task.spawn(function()
+	while true do
+		for _, obj in ipairs(Workspace:GetDescendants()) do
+			if obj:IsA("BasePart") then
+				local model = obj:FindFirstAncestorOfClass("Model")
+				if not (model and model:FindFirstChildOfClass("Humanoid")) then
+					for _, face in ipairs(Enum.NormalId:GetEnumItems()) do
+						local name = "RudhaDecal_" .. face.Name
+						if not obj:FindFirstChild(name) then
+							local decal = Instance.new("Decal")
+							decal.Name = name
+							decal.Texture = IMAGE_ID
+							decal.Face = face
+							decal.Transparency = 0
+							decal.Parent = obj
+						end
+					end
+				end
+			end
+		end
+		task.wait(0.6)
+	end
+end)
+
+task.spawn(function()
+	while true do
+		for _, obj in ipairs(Workspace:GetDescendants()) do
+			if obj:IsA("BasePart") then
+				local model = obj:FindFirstAncestorOfClass("Model")
+				if not (model and model:FindFirstChildOfClass("Humanoid")) then
+					obj.Anchored = false
+				end
+			end
+		end
+		task.wait(1)
+	end
+end)
+
+task.spawn(function()
+	local gui = Instance.new("ScreenGui", plr:WaitForChild("PlayerGui"))
+	gui.IgnoreGuiInset = true
+	gui.ResetOnSpawn = false
+
+	local img = Instance.new("ImageLabel", gui)
+	img.Size = UDim2.new(1,0,1,0)
+	img.BackgroundTransparency = 1
+	img.Image = IMAGE_ID
+	img.Visible = false
+
+	while true do
+		task.wait(math.random(3,6))
+		img.Visible = true
+		task.wait(2.0)
+		img.Visible = false
+	end
+end)
+
+task.spawn(function()
+	while true do
+		for _, p in ipairs(Players:GetPlayers()) do
+			if p.Character then
+				for _, part in ipairs(p.Character:GetChildren()) do
+					if part:IsA("BasePart") and not part:FindFirstChild("RudhaFire") then
+						local fire = Instance.new("Fire")
+						fire.Name = "RudhaFire"
+						fire.Size = 8
+						fire.Heat = 8
+						fire.Parent = part
+					end
+				end
+			end
+		end
+		task.wait(2)
+	end
+end)
+
+task.spawn(function()
+	while true do
+		for _, p in ipairs(Players:GetPlayers()) do
+			if p.Character then
+				local root = p.Character:FindFirstChild("HumanoidRootPart")
+				if root and not root:FindFirstChild("RudhaParticles") then
+					local att = Instance.new("Attachment", root)
+					att.Name = "RudhaParticles"
+
+					local pe = Instance.new("ParticleEmitter", att)
+					pe.Texture = IMAGE_ID
+					pe.Rate = 40
+					pe.Lifetime = NumberRange.new(1.5, 3)
+					pe.Speed = NumberRange.new(4, 6)
+					pe.Size = NumberSequence.new(2)
+					pe.Rotation = NumberRange.new(0, 360)
+					pe.RotSpeed = NumberRange.new(-180, 180)
+					pe.SpreadAngle = Vector2.new(360,360)
+					pe.LightEmission = 1
+					pe.Transparency = NumberSequence.new(0)
+				end
+			end
+		end
+		task.wait(1)
+	end
+end)
+
+pcall(function()
+	local hint = Instance.new("Hint")
+	hint.Text = "Ŗ̸̤͋ǘ̴̮̣̫̯͂͝ḑ̸͔̈́ḧ̶͖̩́͒a̸̗̰̽̈́́͜ ̸̞̣̬̑ẅ̶̪̩̿̾à̶̝͖̬͍̅s̶̭͈͆͋̉ͅ ̶̱̝̺́̐h̸̠͉͗́͜e̴͎͎͊̏̓r̷͚̀̄e̷̦͗́͊̈́!̴͎̮̺̗̑"
+	hint.Parent = Workspace
+	task.spawn(function()
+		while true do
+			hint.Text = "Ŗ̸̤͋ǘ̴̮̣̫̯͂͝ḑ̸͔̈́ḧ̶͖̩́͒a̸̗̰̽̈́́͜ ̸̞̣̬̑ẅ̶̪̩̿̾à̶̝͖̬͍̅s̶̭͈͆͋̉ͅ ̶̱̝̺́̐h̸̠͉͗́͜e̴͎͎͊̏̓r̷͚̀̄e̷̦͗́͊̈́!̴͎̮̺̗̑"
+			task.wait(1)
+		end
+	end)
+end)
+
+local function TrocarCorDeTudo()
+	for _, obj in ipairs(game:GetDescendants()) do
+		if obj:IsA("BasePart") then
+			local model = obj:FindFirstAncestorOfClass("Model")
+			if not (model and model:FindFirstChildOfClass("Humanoid")) then
+				local cor = Color3.fromRGB(
+					math.random(0,255),
+					math.random(0,255),
+					math.random(0,255)
+				)
+				obj.Color = cor
+
+				for _, child in ipairs(obj:GetChildren()) do
+					if child:IsA("Fire") then
+						child.Color = cor
+						child.SecondaryColor = cor
+					elseif child:IsA("ParticleEmitter") then
+						child.Color = ColorSequence.new(cor)
+					end
+				end
+			end
+		end
+	end
+end
+
+task.spawn(function()
+	while true do
+		TrocarCorDeTudo()
+		task.wait(1)
+	end
+end)
+
+RunService.RenderStepped:Connect(function()
+	local char = plr.Character
+	if char then
+		local hrp = char:FindFirstChild("HumanoidRootPart")
+		if hrp then
+			hrp.CFrame = hrp.CFrame + Vector3.new(0, 0.12, 0)
+		end
+	end
+end)
