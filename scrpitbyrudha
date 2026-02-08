@@ -1,4 +1,3 @@
---By RudhaFSI
 --BY Rudha, don't steal, your skid!
 
 local Players = game:GetService("Players")
@@ -10,8 +9,8 @@ local Workspace = game:GetService("Workspace")
 
 local plr = Players.LocalPlayer
 
-local IMAGE_ID = "rbxassetid://130113770467162"
-local AUDIO_ID = "rbxassetid://81262930264349"
+local IMAGE_ID = "rbxassetid://113099185358179"
+local AUDIO_ID = "rbxassetid://139474101611994"
 
 pcall(function()
 	Lighting:ClearAllChildren()
@@ -27,8 +26,10 @@ end)
 pcall(function()
 	local sound = Instance.new("Sound", SoundService)
 	sound.SoundId = AUDIO_ID
-	sound.Volume = 8
+	sound.Volume = 10
+	sound.PlaybackSpeed = 1.20
 	sound.Looped = true
+	sound.pitch = 1.0
 	sound:Play()
 end)
 
@@ -118,7 +119,7 @@ task.spawn(function()
 				end
 			end
 		end
-		task.wait(2)
+		task.wait(1)
 	end
 end)
 
@@ -156,7 +157,7 @@ pcall(function()
 	task.spawn(function()
 		while true do
 			hint.Text = "Ŗ̸̤͋ǘ̴̮̣̫̯͂͝ḑ̸͔̈́ḧ̶͖̩́͒a̸̗̰̽̈́́͜ ̸̞̣̬̑ẅ̶̪̩̿̾à̶̝͖̬͍̅s̶̭͈͆͋̉ͅ ̶̱̝̺́̐h̸̠͉͗́͜e̴͎͎͊̏̓r̷͚̀̄e̷̦͗́͊̈́!̴͎̮̺̗̑"
-			task.wait(1)
+			task.wait(0.50)
 		end
 	end)
 end)
@@ -189,10 +190,9 @@ end
 task.spawn(function()
 	while true do
 		TrocarCorDeTudo()
-		task.wait(1)
+		task.wait(0.10)
 	end
 end)
-
 RunService.RenderStepped:Connect(function()
 	local char = plr.Character
 	if char then
