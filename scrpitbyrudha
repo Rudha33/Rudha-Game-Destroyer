@@ -12,7 +12,7 @@
 -------------------------
 
 local CONFIG = {
-	ASSET_ID = "96931292236031", -- <<< MUDA AQUI
+	ASSET_ID = "73030664918581", -- <<< MUDA AQUI
 	MUSIC_ID = "125324801699414", -- <<< MUDA AQUI
 	DISCO_SPEED = 0.2,
 	COLOR_SPEED = 0.1,
